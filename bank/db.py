@@ -15,7 +15,7 @@ def _init_db():
 _init_db()
 
 
-def get_tuiton(id):
+def get_tuition(id):
     with sqlite3.connect(DB_FILE) as conn:
         # conn.row_factory = sqlite3.Row # to return as dict
 
@@ -51,4 +51,4 @@ def add_tuition_and_balance(id, tuition, balance):
 if __name__ == "__main__":
     add_tuition_and_balance(22070006038, 2, 100)
     print("added tuition or updated")
-    print(get_tuiton(22070006038))
+    print(get_tuition(22070006038))
