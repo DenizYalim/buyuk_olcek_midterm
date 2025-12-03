@@ -57,6 +57,7 @@ def add_tutiton_batch():
 
 @uni_admin_bp.post("/get_unpaid_tuitions")
 def get_unpaid_tuitions():
+    page_num = request.args.get("page")
     """
     queries unpaid tuitions
     ---
@@ -73,4 +74,4 @@ def get_unpaid_tuitions():
       400:
         description: Invalid input
     """
-    pass
+    return get_all_unpaid(page_num)
