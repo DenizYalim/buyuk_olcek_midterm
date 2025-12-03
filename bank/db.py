@@ -46,7 +46,8 @@ def add_tuition_and_balance(id, tuition, balance):
             conn.execute(q, (id,))
 
     _update_tuition_and_balance(id, tuition, balance)
-
+ 
+    return get_tuition(id)
 
 if __name__ == "__main__":
     add_tuition_and_balance(22070006038, 2, 100)

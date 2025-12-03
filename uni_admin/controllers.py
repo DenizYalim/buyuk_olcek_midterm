@@ -11,7 +11,7 @@ def ping():
 def add_tuition(): 
     pass
 
-@uni_admin_bp.post("/add_tuition_batch")
+@uni_admin_bp.post("/add_tuition_batch") # csv'den indirt
 def add_debt():
     pass
 
