@@ -1,1 +1,0 @@
-# burası sadece bank apisini ve unileri kontrol eden app.py'ı çalıştırmalı
