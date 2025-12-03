@@ -1,5 +1,6 @@
 from db import get_tuition, add_tuition_and_balance
 from flask import Blueprint, jsonify, request
+import logging
 
 bank_bp = Blueprint("api", __name__)
 
@@ -10,6 +11,7 @@ def ping():
 
 @bank_bp.get("/get_tuition")
 def get_tuition():
+    logging.info("/get_tuition was called")
     return get_tuition(id=id)
 
 @bank_bp.post("/add_debt")
