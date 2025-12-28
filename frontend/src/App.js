@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 
 function ChatBubble({msg}){
   return (
@@ -12,15 +12,29 @@ export default function App(){
   const [messages, setMessages] = useState([]);
   const [text, setText] = useState('');
   const [loading, setLoading] = useState(false);
+  const [sessionId, setSessionId] = useState(null);
+
+  useEffect(() => {
+    // load stored session id from localStorage
+    try {
+      const sid = localStorage.getItem('chat_session_id');
+      if (sid) setSessionId(sid);
+    } catch (e) {
+      // ignore
+    }
+  }, []);
 
   async function sendMessage(message){
     setLoading(true);
     setMessages((m)=>[...m, {from:'user', text:message}]);
     try{
+      const body = { message };
+      if (sessionId) body.session_id = sessionId;
+
       const res = await fetch('/chat', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ message }),
+        body: JSON.stringify(body),
       });
 
       // Read raw text first, then try to parse JSON to avoid consuming the body twice
@@ -45,6 +59,14 @@ export default function App(){
         reply = 'Error: ' + j.error;
       }
       setMessages((m)=>[...m, {from:'bot', text: reply}]);
+
+      // persist session id if server returned one
+      if (j.session_id) {
+        try {
+          localStorage.setItem('chat_session_id', j.session_id);
+        } catch (e) {}
+        setSessionId(j.session_id);
+      }
     }catch(e){
       setMessages((m)=>[...m, {from:'bot', text: 'Error: ' + String(e)}]);
     }finally{
