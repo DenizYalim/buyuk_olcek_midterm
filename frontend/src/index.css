@@ -1,0 +1,17 @@
+:root{
+  --bg:#f6f7fb;
+  --user:#d1e7ff;
+  --bot:#fff;
+  --accent:#3b82f6;
+}
+body,html,#root{height:100%;margin:0;font-family:Inter, Roboto, Arial, sans-serif;background:var(--bg)}
+.app{max-width:800px;margin:24px auto;background:transparent;display:flex;flex-direction:column;gap:12px}
+header{display:flex;align-items:center;justify-content:space-between}
+.actions button{margin-left:8px}
+.chat{min-height:300px;background:transparent;padding:8px;display:flex;flex-direction:column;gap:8px}
+.bubble{max-width:80%;padding:10px;border-radius:12px}
+.bubble.user{align-self:flex-end;background:var(--user)}
+.bubble.bot{align-self:flex-start;background:var(--bot);box-shadow:0 1px 2px rgba(0,0,0,0.06)}
+.composer{display:flex;gap:8px}
+.composer input{flex:1;padding:10px;border-radius:8px;border:1px solid #ddd}
+.composer button{padding:8px 12px;border-radius:8px;background:var(--accent);color:#fff;border:none}
