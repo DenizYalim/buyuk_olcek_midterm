@@ -29,14 +29,18 @@ def get_tuition(id):
         return result  # (total_tuition, balance)
 
 
-def _update_tuition_and_balance(id, tuition, balance):
+def _update_tuition_and_balance(id, tuition, balance=None):
     with sqlite3.connect(DB_FILE) as conn:
-        query = f"UPDATE {TABLE_NAME} SET total_tuition = ?, balance = ? WHERE id = ?"
-
+        if query:
+            query = (
+                f"UPDATE {TABLE_NAME} SET total_tuition = ?, balance = ? WHERE id = ?"
+            )
+        else:  # eğer balance null ise
+            query = f"UPDATE {TABLE_NAME} SET total_tuition = ? WHERE id = ?"
         conn.execute(query, (tuition, balance, id))
 
 
-def add_tuition_and_balance(id, tuition, balance):
+def add_tuition_and_balance(id, tuition, balance=None):
     with sqlite3.connect(DB_FILE) as conn:
         q = f"SELECT * FROM {TABLE_NAME} WHERE id = ?"
         cur = conn.execute(q, (id,))
@@ -46,6 +50,21 @@ def add_tuition_and_balance(id, tuition, balance):
             conn.execute(q, (id,))
 
     _update_tuition_and_balance(id, tuition, balance)
+
+    return get_tuition(id)
+
+
+PAGE_LIMIT = 10
+
+
+def get_all_unpaid(page_num: int):
+    offset = (page_num - 1) * PAGE_LIMIT
+    q = f"SELECT * FROM {TABLE_NAME} WHERE total_tuition >= 0 LIMIT ? OFFSET ?"
+
+    with sqlite3.connect(DB_FILE) as conn:
+        cur = conn.execute(q, (PAGE_LIMIT, offset))
+
+        return cur.fetchall()
 
 
 if __name__ == "__main__":

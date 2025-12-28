@@ -58,3 +58,12 @@ if __name__ == "__main__":
     app = app_from_bp()
     app.run(host="0.0.0.0", port=5000)
 
+
+""" 
+    TODO
+    * paging ok; auth todo
+    * to host
+    * to film later
+    * add logging
+    * get batch return
+"""
